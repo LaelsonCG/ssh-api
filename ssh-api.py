@@ -21,7 +21,7 @@ class Handler(BaseHTTPRequestHandler):
         if self.path.endswith('teste'):
             validade = 3
             limite = 300
-            script = f"/opt/speednet/teste.sh {usuario} {senha} {validade} {limite}"
+            script = f"/opt/speednet/criarteste.sh {usuario} {senha} {validade} {limite}"
         else:
             validade = 30
             limite = 1
