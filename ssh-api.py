@@ -1,6 +1,8 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json, subprocess, random, string
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 def gerar_string(tamanho=6):
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=tamanho))
 
@@ -21,11 +23,11 @@ class Handler(BaseHTTPRequestHandler):
         if self.path.endswith('teste'):
             validade = 3
             limite = 300
-            script = f"/opt/speednet/criarteste.sh {usuario} {senha} {validade} {limite}"
+            script = f"{BASE_DIR}/criarteste.sh {usuario} {senha} {validade} {limite}"
         else:
             validade = 30
             limite = 1
-            script = f"/opt/speednet/criarusuario.sh {usuario} {senha} {validade} {limite}"
+            script = f"{BASE_DIR}/criarusuario.sh {usuario} {senha} {validade} {limite}"
 
         try:
             subprocess.check_call(script, shell=True)
