@@ -3,6 +3,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json, subprocess, random, string
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+API_TOKEN = "SENHA_SUPER_SECRETA"  # 🔒 coloque sua senha/token aqui
 
 def gerar_string(tamanho=6):
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=tamanho))
@@ -17,6 +18,11 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         if self.path not in ['/criar/teste', '/criar/ssh']:
             return self._json(404, {"erro": "Rota inválida"})
+
+        # Verificação de token no cabeçalho
+        token = self.headers.get('X-Api-Token')
+        if token != API_TOKEN:
+            return self._json(403, {"erro": "Token inválido"})
 
         usuario = gerar_string(random.randint(4, 8))
         senha = gerar_string(random.randint(4, 8))
